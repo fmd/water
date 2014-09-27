@@ -69,31 +69,53 @@ func getArea(vals []int) int {
 	//We go from top to bottom to find the area.
 	level := max(vals)
 
+	//Set the area to 0
 	area := 0
 	areaStarted := false
 
-	for level >= 0 {
+	//Loop from top to bottom of problem. We don't need to test at 0.
+	for level > 0 {
+
+		//At the start of each level, no section has been started.
 		areaStarted = false
 		areaSection := 0
 
+		//Loop through the bars. 
 		for i := range vals {
+
+			//Get the height of the current bar.
 			test := vals[i]
+
+			//If the height of the current bar reaches the level we're testing:
 			if test >= level {
+
+				//Start a new area, and add the previous section's area to the total.
 				areaStarted = true
-				area += areaSection
 				areaSection = 0
+				area += areaSection
+
+			//Otherwise, if an area has been started, add 1 to the current section's area.
 			} else if (areaStarted) {
 				areaSection += 1
 			}
-		}	
+		}
+
+		//Test the next lowest area.
 		level -= 1
 	}
 
+	//Return the total area.
 	return area
 }
 
 func main() {
+
+	//Get the array from the command line arguments.
 	vals := getIntVals(getArgs())
+
+	//Run the algorithm.
 	area := getArea(vals)
+
+	//Print the area.
 	fmt.Println(area)
 }
